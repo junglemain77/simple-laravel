@@ -33,7 +33,7 @@ Route::get('/blog', function () {
     $blog_posts = [
         [
             "title"     => "Judul Post 1",
-            "slug"      => "Judul-post-pertama",
+            "slug"      => "judul-post-pertama",
             "author"    => "Vale II",
             "body"      => "Lorem ipsum dolor sit amet, 
             consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -41,7 +41,7 @@ Route::get('/blog', function () {
         ],
         [
             "title"     => "Judul Post 2",
-            "slug"      => "Judul-post-kedua",
+            "slug"      => "judul-post-kedua",
             "author"    => "Vale IV",
             "body"      => "eqweqweqwqeedff dfs sq ASDAS SDSA,
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -67,7 +67,7 @@ Route::get('posts/{slug}', function ($slug) {
         ],
         [
             "title"     => "Judul Post 2",
-            "slug"      => "Judul-post-kedua",
+            "slug"      => "judul-post-kedua",
             "author"    => "Vale IV",
             "body"      => "eqweqweqwqeedff dfs sq ASDAS SDSA,
             sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -75,9 +75,10 @@ Route::get('posts/{slug}', function ($slug) {
         ],
     ];
 
+/*
     $new_post = [];
     foreach($blog_posts as $post) {
-        if($post["slug"] == $slug) {
+        if($post["slug"] === $slug) {
             $new_post[] = $post;
         }
     }
@@ -86,4 +87,24 @@ Route::get('posts/{slug}', function ($slug) {
         "title" => "Single Post",
         "post"  => $new_post
     ]);
+});
+*/
+
+    $new_post = null;
+    foreach ($blog_posts as $post) {
+        if ($post["slug"] === $slug) {
+            $new_post = $post;
+            break; // Stop the loop once the post is found
+        }
+    }
+
+    if ($new_post) {
+        return view('post', [
+            "title" => "Single Post",
+            "post"  => $new_post
+        ]);
+    } else {
+        // Handle the case where no post is found for the given slug
+        abort(404); // Or return a specific view for "post not found"
+    }
 });

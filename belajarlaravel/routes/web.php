@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PostController;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,82 +31,6 @@ Route::get('/about', function () {
 });
 
 
-Route::get('/blog', function () {
-    $blog_posts = [
-        [
-            "title"     => "Judul Post 1",
-            "slug"      => "judul-post-pertama",
-            "author"    => "Vale II",
-            "body"      => "Lorem ipsum dolor sit amet, 
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Eu lobortis elementum nibh tellus molestie nunc non blandit."
-        ],
-        [
-            "title"     => "Judul Post 2",
-            "slug"      => "judul-post-kedua",
-            "author"    => "Vale IV",
-            "body"      => "eqweqweqwqeedff dfs sq ASDAS SDSA,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Eu lobortis elementum nibh tellus molestie nunc non blandit."
-        ],
-    ];
+Route::get('/blog', [PostController::class,'index']);
 
-    return view('posts',[
-        "title" => "Posts",
-        "posts" => $blog_posts
-    ]);
-});
-
-Route::get('posts/{slug}', function ($slug) {
-    $blog_posts = [
-        [
-            "title"     => "Judul Post 1",
-            "slug"      => "judul-post-pertama",
-            "author"    => "Vale II",
-            "body"      => "Lorem ipsum dolor sit amet, 
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Eu lobortis elementum nibh tellus molestie nunc non blandit."
-        ],
-        [
-            "title"     => "Judul Post 2",
-            "slug"      => "judul-post-kedua",
-            "author"    => "Vale IV",
-            "body"      => "eqweqweqwqeedff dfs sq ASDAS SDSA,
-            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Eu lobortis elementum nibh tellus molestie nunc non blandit."
-        ],
-    ];
-
-/*
-    $new_post = [];
-    foreach($blog_posts as $post) {
-        if($post["slug"] === $slug) {
-            $new_post[] = $post;
-        }
-    }
-    
-    return view('post', [
-        "title" => "Single Post",
-        "post"  => $new_post
-    ]);
-});
-*/
-
-    $new_post = null;
-    foreach ($blog_posts as $post) {
-        if ($post["slug"] === $slug) {
-            $new_post = $post;
-            break; // Stop the loop once the post is found
-        }
-    }
-
-    if ($new_post) {
-        return view('post', [
-            "title" => "Single Post",
-            "post"  => $new_post
-        ]);
-    } else {
-        // Handle the case where no post is found for the given slug
-        abort(404); // Or return a specific view for "post not found"
-    }
-});
+Route::get('posts/{slug}', [PostController::class,'show']);

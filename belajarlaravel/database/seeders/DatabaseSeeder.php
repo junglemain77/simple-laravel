@@ -43,7 +43,12 @@ class DatabaseSeeder extends Seeder
             'slug'=> 'sports'
         ]);
 
-        Post::factory(10)->create();
+        Category::create([
+            'name'=> 'Gaming',
+            'slug'=> 'gaming'
+        ]);
+
+        Post::factory(25)->create();
 
         // Post::create([
         //     'title'=> 'Judul Pertama',
@@ -71,8 +76,6 @@ class DatabaseSeeder extends Seeder
         //     'category_id'=> 2,  
         //     'user_id'=> 1
         // ]);
-
-        Post::factory(15)->create();
 
     }
 }
